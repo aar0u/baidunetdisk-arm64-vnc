@@ -1,14 +1,14 @@
-FROM jlesage/baseimage-gui:debian-10-v4.2.2
+FROM jlesage/baseimage-gui:debian-10-v4.6.7
 
 ARG BAIDUNETDISK_VER=4.17.7
 
 ENV APP_NAME="Baidunetdisk"
-ENV NOVNC_LANGUAGE="zh_Hans"
+# ENV NOVNC_LANGUAGE="zh_Hans"
 ENV TZ=Asia/Shanghai
 ENV HOME=/config
 ENV LC_ALL=C
 
-COPY --chmod=755 root /
+# COPY --chmod=755 root /
 COPY --chmod=755 startapp.sh /startapp.sh
 
 RUN apt-get update \
@@ -19,8 +19,9 @@ RUN apt-get update \
 && rm  baidunetdisk_${BAIDUNETDISK_VER}_arm64.deb \
 && install_app_icon.sh https://raw.githubusercontent.com/emuqi/baidunetdisk-arm64-vnc/master/icon/baidunetdisk.png \
 #fix window decorations
-&& sed -i 's/normal/desktop/g' /opt/base/etc/jwm/main-window-group.sh \
+# && sed -i 's/normal/desktop/g' /opt/base/etc/jwm/main-window-group.sh \
 #novnc_language
-&& mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
+# && mv /opt/noVNC/index.html /opt/noVNC/index.html.en \
 #fix dpkg
-&& sed -i '/messagebus/d' /var/lib/dpkg/statoverride
+# && sed -i '/messagebus/d' /var/lib/dpkg/statoverride
+&& sed -i "s#<decor>no</decor>#<decor>yes</decor>#g" /opt/base/etc/openbox/rc.xml.template

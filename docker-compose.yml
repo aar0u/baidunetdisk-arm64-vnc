@@ -1,16 +1,15 @@
-version: '1'
-
 services:
-  baidunetdisk-vnc:
-    image: emuqi/baidunetdisk-arm64-vnc:latest
-    container_name: baidunetdisk-vnc
+  bdp:
+    image: bdp:latest
+    container_name: bdp
     environment:
       - USER_ID=1000
-      - GROUP_ID=1000 
+      - GROUP_ID=1000
+      - DCONF_PROFILE=/dev/null #ignore dconf warnings
     volumes:
-      - ${PWD}/bdnetdisk-config:/config
-      - ${PWD}/downloads:/config/baidunetdiskdownload
+      - /Volumes/RAMDisk/baidunetdisk:/config/xdg/config/baidunetdisk
+      - /Volumes/RAMDisk/download:/config/baidunetdisk_download
     ports:
       - "5800:5800" # noVNC 端口 按需要修改冒号前面端口
       - "5900:5900" # VNC 端口 按需要修改冒号前面端口
-    restart: unless-stopped
+    restart: none
